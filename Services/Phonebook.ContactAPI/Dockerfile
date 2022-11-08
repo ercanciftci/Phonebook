@@ -4,7 +4,7 @@ EXPOSE 80
 COPY Shared/Phonebook.Shared/*.csproj Shared/Phonebook.Shared/
 COPY Services/Phonebook.ContactAPI/*.csproj Services/Phonebook.ContactAPI/
 RUN dotnet restore Services/Phonebook.ContactAPI/*.csproj
-COPY . .
+COPY . ./
 RUN dotnet publish Services/Phonebook.ContactAPI/*.csproj -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim as runtime
 WORKDIR /app

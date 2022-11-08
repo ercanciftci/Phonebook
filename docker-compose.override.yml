@@ -15,23 +15,23 @@ services:
       - "15672:15672"
   contactapi:
     container_name: contactapi
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - DatabaseSettings:ConnectionString=mongodb://contactdb:27017
     ports:
       - "5011:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://contactdb"
     depends_on:
       - contactdb
   reportapi:
     container_name: reportapi
+    ports:
+      - "5012:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - RabbitMQUrl=rabbitmq
-      - DatabaseSettings:ConnectionString=mongodb://contactdb:27017
-      - ContactAPILocationDataListUrl=http://contactapi:5011/api/ContactInformations/GetLocationDataList
-    ports:
-      - "5012:80"
+      - "DatabaseSettings:ConnectionString=mongodb://contactdb"
+      - "ContactAPILocationDataListUrl=http://contactapi/api/ContactInformations/GetLocationDataList"
     depends_on:
-      - contactdb
       - rabbitmq
+      - contactdb
       - contactapi

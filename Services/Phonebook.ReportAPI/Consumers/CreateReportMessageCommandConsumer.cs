@@ -77,7 +77,7 @@ public class CreateReportMessageCommandConsumer : IConsumer<CreateReportMessageC
                     if (string.IsNullOrEmpty(reportItem.ReportFileName))
                         reportItem.ReportFileName = Guid.NewGuid().ToString() + ".xlsx";
 
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\reports", reportItem.ReportFileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "reports", reportItem.ReportFileName);
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {

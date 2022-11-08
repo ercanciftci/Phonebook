@@ -3,8 +3,9 @@ WORKDIR /app
 EXPOSE 80
 COPY Shared/Phonebook.Shared/*.csproj Shared/Phonebook.Shared/
 COPY Services/Phonebook.ReportAPI/*.csproj Services/Phonebook.ReportAPI/
+COPY Services/Phonebook.ReportAPI/wwwroot/ Services/Phonebook.ReportAPI/wwwroot/
 RUN dotnet restore Services/Phonebook.ReportAPI/*.csproj
-COPY . .
+COPY . ./
 RUN dotnet publish Services/Phonebook.ReportAPI/*.csproj -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim as runtime
 WORKDIR /app
