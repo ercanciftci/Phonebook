@@ -1,0 +1,37 @@
+version: '4.13.1'
+services:
+  contactdb:
+    container_name: contactdb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes: 
+      - contactdb_volume:/data/db
+  rabbitmq: 
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  contactapi:
+    container_name: contactapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DatabaseSettings:ConnectionString=mongodb://contactdb:27017
+    ports:
+      - "5011:80"
+    depends_on:
+      - contactdb
+  reportapi:
+    container_name: reportapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RabbitMQUrl=rabbitmq
+      - DatabaseSettings:ConnectionString=mongodb://contactdb:27017
+      - ContactAPILocationDataListUrl=http://contactapi:5011/api/ContactInformations/GetLocationDataList
+    ports:
+      - "5012:80"
+    depends_on:
+      - contactdb
+      - rabbitmq
+      - contactapi
